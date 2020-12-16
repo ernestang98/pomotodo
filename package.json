@@ -16,6 +16,7 @@
     "@expo-google-fonts/dev": "*",
     "@expo-google-fonts/inter": "*",
     "@expo/vector-icons": "^10.0.0",
+    "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/checkbox": "^0.5.6",
     "@react-navigation/core": "3.0.0",
     "@react-navigation/native": "~3.3.0",

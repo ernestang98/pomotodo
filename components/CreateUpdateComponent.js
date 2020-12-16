@@ -45,10 +45,14 @@ class CreateUpdateComponent extends React.Component {
                           
                           }
                           }>
-              <Image
+              {this.state.input !== "" && <Image
                 source={require('../assets/plus.png')}
                 style={styles.controlBtn}
-                />
+                />}
+              {this.state.input === "" && <Image
+                source={require('../assets/return.png')}
+                style={styles.controlBtn}
+                />}
             </TouchableOpacity>
           </View>
         </ImageBackground>

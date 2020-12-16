@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Image, Text, View, StyleSheet, ImageBackground, Platform,
   FlatList, TouchableOpacity, TextInput } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const image = { uri: "https://archziner.com/wp-content/uploads/2020/01/black-and-white-photo-of-a-snowy-mountain-landscape-red-aesthetic-wallpaper-full-moon-in-the-black-sky.jpg" };
 
@@ -12,11 +13,7 @@ class DashboardComponent extends React.Component {
     console.log(props.navigation.state.params)
     if (props.navigation.state.params === undefined) {
       this.state = {
-        itemList: [
-          {id: 1, task: "Task 1", checked: true, minute: 25, second: "00"},
-          {id: 2, task: "Task 2", checked: false, minute: 25, second: "00"},
-          {id: 3, task: "Task 3", checked: false, minute: 25, second: "00"},
-        ],
+        itemList: [],
         newItem: '',
         OS: Platform.OS
       }
@@ -28,6 +25,48 @@ class DashboardComponent extends React.Component {
       OS: Platform.OS
       }
     }
+  }
+
+  saveData = async() => {
+    alert("Saving...")
+    try {
+      await AsyncStorage.setItem('itemList', JSON.stringify(this.state.itemList))
+      alert("Success!")
+    }
+    catch (e) {
+      alert("Error encountered: " + e)
+    }
+  }
+
+  loadData = async() => {
+    alert("Loading...")
+    try {
+      const data = await AsyncStorage.getItem('itemList')
+      console.log(data)
+      alert("Success!")
+      if (data === null) {
+        this.setState({
+          itemList: [
+            {id: 1, task: "Task 1", checked: true, minute: 25, second: "00"},
+            {id: 2, task: "Task 2", checked: false, minute: 25, second: "00"},
+            {id: 3, task: "Task 3", checked: false, minute: 25, second: "00"},
+          ]
+        })
+        console.log(this.state.itemList)
+      }
+      else {
+        this.setState({
+          itemList: JSON.parse(data)
+        })
+      }
+    }
+    catch(e) {
+      alert("Error encountered: " + e)
+    }
+  }
+
+  componentDidMount() {
+    console.log(this.state)
   }
 
   extractId = (id) => {
@@ -89,7 +128,7 @@ class DashboardComponent extends React.Component {
                 </View>
 
                 <View style={styles.editDelete}>
-                  <View style={styles.editDelete}>
+                  <View style={styles.edit}>
                     <TouchableOpacity>
                       <Text>Edit</Text>
                     </TouchableOpacity>
@@ -116,11 +155,6 @@ class DashboardComponent extends React.Component {
     })
   }
 
-  resetOperation = () => {
-    this.setState({
-
-    })
-  }
   
   render() {
     return (
@@ -135,7 +169,19 @@ class DashboardComponent extends React.Component {
                 source={require('../assets/plus.png')}
                 style={styles.controlBtn}
                 />
-            </TouchableOpacity>   
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>this.saveData()}>
+            <Image
+                source={require('../assets/save.png')}
+                style={styles.controlBtn}
+                />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>this.loadData()}>
+            <Image
+                source={require('../assets/load.png')}
+                style={styles.controlBtn}
+                />
+            </TouchableOpacity>     
           </View>
         <View style={styles.header}>
           <TextInput style={styles.input} placeholder={"Search..."}
@@ -171,7 +217,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection:"row",
     justifyContent:"center",
-    marginTop: 50
+    marginTop: 30
   },
   image: {
     flex: 1,
@@ -182,7 +228,6 @@ const styles = StyleSheet.create({
     marginTop: 30
   },
   input: {
-    marginRight: 10,
     height: 40, borderColor: 'gray', borderWidth: 1,
     padding: 10, width: 300,
     borderRadius: 30, borderWidth: 2,
@@ -191,14 +236,19 @@ const styles = StyleSheet.create({
   task: {
     justifyContent: "center"
   },
+  edit: {
+    marginRight: 15
+  },
   addLoad: {
+    flexDirection: "row-reverse",
+    justifyContent: "space-around",
     backgroundColor: "transparent",
     alignItems: "flex-end",
-    marginTop: 10,
+    marginTop: 30,
   },
   editDelete: {
     flexDirection: "row",
-    marginRight: 10
+    marginRight: 25
   },
   controlBtn: {
     height: 40,
