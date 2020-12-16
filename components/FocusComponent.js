@@ -32,7 +32,7 @@ class FocusComponent extends React.Component {
       task: propsTask,
       id: propsId,
       checked: propsChecked,
-      OS: Platform.OS
+      OS: Platform.OS,
     }  
   }
 
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
   },
   task: {
     fontSize: 20,
-    fontFamily: 'FredokaOne-Regular',
+    fontFamily: 'sans-serif-medium',
     color: "white",
     marginLeft: 10
   }
