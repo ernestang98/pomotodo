@@ -172,6 +172,7 @@ class FocusComponent extends React.Component {
   }
 }
 
+
 const styles = StyleSheet.create({
   image: {
     flex: 1,
@@ -210,7 +211,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto',
     fontSize: 80,
     color: "white",
-    fontWeight: "bold"
+    fontWeight: "bold" 
   },
   controlBtn: {
     height: 30,
