@@ -14,12 +14,13 @@ const image = { uri: "https://i.pinimg.com/originals/c2/dd/7b/c2dd7bf1a4602978cb
 class FocusComponent extends React.Component {
 
   constructor(props) {
+    console.log(props)
     super(props)
     let propsMin = parseInt(props.navigation.state.params.minute)
     let propsSec = props.navigation.state.params.second
     let propsTask = props.navigation.state.params.task
     let propsData = props.navigation.state.params.data
-    let propsChecked = props.navigation.state.params.checked === "true"
+    let propsChecked = props.navigation.state.params.checked
     let propsId = props.navigation.state.params.id
     this.state = {
       eventDate:moment.duration().add({days:0,hours:0,minutes:propsMin,seconds:propsSec}),
@@ -36,7 +37,7 @@ class FocusComponent extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.state.OS)
+
   }
 
   stopTimer=()=> {
@@ -106,7 +107,8 @@ class FocusComponent extends React.Component {
                                                 for (let i = 0; i<data.length; i++) {
                                                   if (data[i].id === this.state.id) {
                                                     data[i].minute = this.state.mins
-                                                    data[i].second = this.state.secs
+                                                    data[i].second = this.state.secs,
+                                                    data[i].checked =  this.state.checked
                                                   }
                                                 }
                                                 console.log(data)
@@ -143,25 +145,7 @@ class FocusComponent extends React.Component {
             <Text style={styles.timer}>{ `${mins} : ${secs}`}</Text>
           </View>
           <View style={styles.bottom}>
-            <TouchableOpacity onPress={() => {  counter = 0
-                                                for (let i = 0; i < interval.length; i++) {
-                                                            clearInterval(interval[i])
-                                                        }
-                                                  console.log(this.state.mins)
-                                                  console.log(this.state.secs)
-                                                  console.log(this.state.id)
-                                                let data = this.state.data
-                                                for (let i = 0; i<data.length; i++) {
-                                                  if (data[i].id === this.state.id) {
-                                                    data[i].minute = this.state.mins
-                                                    data[i].second = this.state.secs
-                                                    data[i].checked = this.state.checked
-                                                  }
-                                                }
-                                                console.log(data)
-                                                this.props.navigation.navigate('Dashboard', 
-                                                {array:data})}
-                                                }>
+            <TouchableOpacity>
               
             </TouchableOpacity>
             {
@@ -169,6 +153,9 @@ class FocusComponent extends React.Component {
               <CheckBox
                 value={this.state.checked}
                 tintColors={{ true: 'white', false: 'white' }}
+                onValueChange={() => this.setState({
+                  checked: !this.state.checked
+                })}
               />
               }
             {
