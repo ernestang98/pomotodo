@@ -207,9 +207,10 @@ const styles = StyleSheet.create({
     bottom: 75
   },
   timer: {
-    fontFamily: 'FredokaOne-Regular',
+    fontFamily: 'Roboto',
     fontSize: 80,
-    color: "white"
+    color: "white",
+    fontWeight: "bold"
   },
   controlBtn: {
     height: 30,
